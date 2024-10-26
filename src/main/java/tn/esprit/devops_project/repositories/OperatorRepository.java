@@ -1,5 +1,4 @@
 package tn.esprit.devops_project.repositories;
-import org.apache.log4j.Logger;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

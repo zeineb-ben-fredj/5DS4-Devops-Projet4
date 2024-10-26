@@ -1,49 +1,58 @@
 package tn.esprit.devops_project.controllers;
 
 import lombok.AllArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.devops_project.entities.Operator;
 import tn.esprit.devops_project.services.Iservices.IOperatorService;
-import org.apache.log4j.Logger;
 
 import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/operators")  // Base URL for the controller
 public class OperatorController {
 
-	IOperatorService operatorService;
-	private static final Logger logger = Logger.getLogger(OperatorController.class);
+	private static final Logger logger = LogManager.getLogger(OperatorController.class);
 
-	@GetMapping
+	IOperatorService operatorService;
+
+	@GetMapping("/operator")
 	public List<Operator> getOperators() {
 		logger.info("Fetching all operators");
-		return operatorService.retrieveAllOperators();
+		List<Operator> operators = operatorService.retrieveAllOperators();
+		logger.info("Fetched {} operators", operators.size());
+		return operators;
 	}
 
-	@GetMapping("/{operatorId}")
-	public Operator retrieveOperator(@PathVariable Long operatorId) {
-		logger.info("Fetching operator with ID: " + operatorId);
-		return operatorService.retrieveOperator(operatorId);
+	@GetMapping("/operator/{operatorId}")
+	public Operator retrieveoperator(@PathVariable Long operatorId) {
+		logger.info("Fetching operator with ID: {}", operatorId);
+		Operator operator = operatorService.retrieveOperator(operatorId);
+		logger.info("Fetched operator: {}", operator);
+		return operator;
 	}
 
-	@PostMapping
+	@PostMapping("/operator")
 	public Operator addOperator(@RequestBody Operator operator) {
-		logger.info("Adding new operator: " + operator);
-		return operatorService.addOperator(operator);
+		logger.info("Adding new operator: {}", operator);
+		Operator addedOperator = operatorService.addOperator(operator);
+		logger.info("Added operator: {}", addedOperator);
+		return addedOperator;
 	}
 
-	@DeleteMapping("/{operatorId}")
+	@DeleteMapping("/operator/{operatorId}")
 	public void removeOperator(@PathVariable Long operatorId) {
-		logger.info("Removing operator with ID: " + operatorId);
+		logger.info("Removing operator with ID: {}", operatorId);
 		operatorService.deleteOperator(operatorId);
-		logger.info("Removed operator with ID: " + operatorId);
+		logger.info("Removed operator with ID: {}", operatorId);
 	}
 
-	@PutMapping
+	@PutMapping("/operator")
 	public Operator modifyOperateur(@RequestBody Operator operator) {
-		logger.info("Updating operator: " + operator);
-		return operatorService.updateOperator(operator);
+		logger.info("Modifying operator: {}", operator);
+		Operator updatedOperator = operatorService.updateOperator(operator);
+		logger.info("Modified operator: {}", updatedOperator);
+		return updatedOperator;
 	}
 }
