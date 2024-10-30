@@ -14,7 +14,7 @@
     <name>DevOps_Project</name>
     <description>DevOps_Project</description>
     <properties>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
     </properties>
     <dependencies>
         <dependency>
@@ -117,9 +117,9 @@
 
             <id>deploymentRepo</id>
 
-            <name>Nexus Repository</name>
+            <name>maven-releases</name>
 
-            <url>http://localhost:8081/repository/maven-releases/</url>
+            <url>http://192.168.33.10:8081/repository/maven-releases/</url>
 
         </repository>
 
