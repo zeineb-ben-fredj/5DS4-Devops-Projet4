@@ -89,7 +89,27 @@
             <scope>test</scope>
         </dependency>
 
+
+        <dependency>
+            <groupId>org.sonarsource.scanner.maven</groupId>
+            <artifactId>sonar-maven-plugin</artifactId>
+            <version>3.2</version>
+        </dependency>
+
     </dependencies>
+    <distributionManagement>
+
+        <repository>
+
+            <id>deploymentRepo</id>
+
+            <name>maven-releases</name>
+
+            <url>http://192.168.33.10:8081/repository/maven-releases/</url>
+
+        </repository>
+
+    </distributionManagement>
 
     <build>
         <plugins>
@@ -106,24 +126,25 @@
                 </configuration>
             </plugin>
         </plugins>
+
+
+
     </build>
 
 
-    <!-- Deploy to Nexus -->
 
-    <distributionManagement>
-
-        <repository>
-
-            <id>deploymentRepo</id>
-
-            <name>maven-releases</name>
-
-            <url>http://192.168.33.10:8081/repository/maven-releases/</url>
-
-        </repository>
-
-    </distributionManagement>
-
+    <profiles>
+        <profile>
+            <id>sonar</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <sonar.host.url>
+                    http://192.168.33.10:9000
+                </sonar.host.url>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>
