@@ -1,0 +1,53 @@
+version: '3.8'  # Specify the version of Docker Compose
+
+services:
+  backend:
+    image: zeinebbenfredj/devops-project:1.0  # Use the specified Docker image
+    restart: on-failure
+    stdin_open: true  # Keep STDIN open even if not attached
+    tty: true  # Allocate a pseudo-TTY
+
+    ports:
+      - 8082:8082  # Map port 8082 of the container to port 8082 of the host
+
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/devops  # Database connection URL
+      SPRING_DATASOURCE_USERNAME: root  # Database username
+      SPRING_DATASOURCE_PASSWORD:   # Database password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update  # Enable automatic schema updates
+      SPRING_JPA_SHOW_SQL: true  # Show SQL statements in the console
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL5Dialect  # Hibernate dialect for MySQL
+    depends_on:
+
+      - db  # Wait for the database service to be ready before starting the backend
+
+  db:
+    image: mysql:5.7  # Use the MySQL 5.7 image
+    restart: unless-stopped
+    ports:
+      - "3306:3306"  # Expose MySQL port
+    environment:
+      MYSQL_DATABASE: devops  # Name of the database to create
+      MYSQL_USER: root  # Database username
+      MYSQL_PASSWORD:   # Database password
+    volumes:
+      - db_data:/var/lib/mysql  # Persist MySQL data
+
+volumes:
+  db_data:  # Define a volume for MySQL data persistence
+
+#  frontend:
+#    build:
+#      context: ../DevOps_Project_Front  # Path to frontend directory
+#      dockerfile: Dockerfile  # Specify the frontend Dockerfile name if needed
+#    image: zeinebbenfredj-5ds4-projet4-front  # Custom name for frontend image
+#    ports:
+#      - "3000:3000"  # Expose frontend on port 3000
+
+# Uncomment this section if you want to include Grafana later
+# grafana:
+#   image: grafana/grafana-oss
+#   ports:
+#     - "3001:3000"                      # Expose Grafana on port 3001
+#   environment:
+#     GF_SECURITY_ADMIN_PASSWORD: admin   # Set admin password for Grafana
