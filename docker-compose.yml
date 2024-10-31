@@ -6,32 +6,35 @@ services:
     restart: on-failure
     stdin_open: true  # Keep STDIN open even if not attached
     tty: true  # Allocate a pseudo-TTY
-
     ports:
       - 8082:8082  # Map port 8082 of the container to port 8082 of the host
-
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/devops  # Database connection URL
       SPRING_DATASOURCE_USERNAME: root  # Database username
-      SPRING_DATASOURCE_PASSWORD:   # Database password
+      SPRING_DATASOURCE_PASSWORD: root  # Database password (set to 'root' or your desired password)
       SPRING_JPA_HIBERNATE_DDL_AUTO: update  # Enable automatic schema updates
       SPRING_JPA_SHOW_SQL: true  # Show SQL statements in the console
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL5Dialect  # Hibernate dialect for MySQL
     depends_on:
 
-      - db  # Wait for the database service to be ready before starting the backend
+      - db # Wait for the database service to be ready before starting the backend
 
   db:
     image: mysql:5.7  # Use the MySQL 5.7 image
     restart: unless-stopped
     ports:
-      - "3306:3306"  # Expose MySQL port
+      - "3307:3306"  # Expose MySQL port
     environment:
       MYSQL_DATABASE: devops  # Name of the database to create
       MYSQL_USER: root  # Database username
-      MYSQL_PASSWORD:   # Database password
+      MYSQL_PASSWORD: root  # Database password
     volumes:
       - db_data:/var/lib/mysql  # Persist MySQL data
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
   db_data:  # Define a volume for MySQL data persistence
