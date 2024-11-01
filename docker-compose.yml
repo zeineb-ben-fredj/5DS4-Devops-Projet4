@@ -1,41 +1,37 @@
-version: '3.8'  # Specify the version of Docker Compose
+#version: '3.8'
 
 services:
   backend:
-    image: zeinebbenfredj/devops-project:1.0  # Use the specified Docker image
+    image: zeinebbenfredj/devops-project:1.0
     restart: on-failure
-    stdin_open: true  # Keep STDIN open even if not attached
-    tty: true  # Allocate a pseudo-TTY
-
+    stdin_open: true
+    tty: true
     ports:
-      - 8082:8082  # Map port 8082 of the container to port 8082 of the host
-
+      - "8082:8082"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/devops  # Database connection URL
-      SPRING_DATASOURCE_USERNAME: root  # Database username
-      SPRING_DATASOURCE_PASSWORD:   # Database password
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update  # Enable automatic schema updates
-      SPRING_JPA_SHOW_SQL: true  # Show SQL statements in the console
-      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL5Dialect  # Hibernate dialect for MySQL
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/devops?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD:  # Leave empty for no password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: true
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL5Dialect
     depends_on:
-
-      - db  # Wait for the database service to be ready before starting the backend
+      - db
 
   db:
-    image: mysql:5.7  # Use the MySQL 5.7 image
+    image: mysql:5.7
     restart: unless-stopped
     ports:
-      - "3306:3306"  # Expose MySQL port
+      - "3307:3306"
     environment:
       MYSQL_DATABASE: devops  # Name of the database to create
-      MYSQL_USER: root  # Database username
-      MYSQL_PASSWORD:   # Database password
+      MYSQL_ROOT_PASSWORD: ""  # Set this to an empty string to allow no password for root user
+      MYSQL_ALLOW_EMPTY_PASSWORD: yes  # Allow empty password for root user
     volumes:
-      - db_data:/var/lib/mysql  # Persist MySQL data
+      - db_data:/var/lib/mysql
 
 volumes:
-  db_data:  # Define a volume for MySQL data persistence
-
+  db_data:
 #  frontend:
 #    build:
 #      context: ../DevOps_Project_Front  # Path to frontend directory
