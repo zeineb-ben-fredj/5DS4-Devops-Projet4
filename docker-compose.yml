@@ -7,11 +7,11 @@ services:
     stdin_open: true
     tty: true
     ports:
-      - "8082:8082"
+      - "8081:8081"
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/devops?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD:  # Leave empty for no password
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: zeineb  # Leave empty for no password
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_JPA_SHOW_SQL: true
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL5Dialect
@@ -21,8 +21,6 @@ services:
   db:
     image: mysql:5.7
     restart: unless-stopped
-    ports:
-      - "3307:3306"
     environment:
       MYSQL_DATABASE: devops  # Name of the database to create
       MYSQL_ROOT_PASSWORD: ""  # Set this to an empty string to allow no password for root user
@@ -32,6 +30,7 @@ services:
 
 volumes:
   db_data:
+
 #  frontend:
 #    build:
 #      context: ../DevOps_Project_Front  # Path to frontend directory
