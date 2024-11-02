@@ -13,7 +13,6 @@ services:
       SPRING_DATASOURCE_USERNAME: root  # Database username
       SPRING_DATASOURCE_PASSWORD: root  # Database password (set to 'root' or your desired password)
       SPRING_JPA_HIBERNATE_DDL_AUTO: update  # Enable automatic schema updates
-      SPRING_JPA_SHOW_SQL: true  # Show SQL statements in the console
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL5Dialect  # Hibernate dialect for MySQL
     depends_on:
       - db  # Wait for the database service to be ready before starting the backend
@@ -26,7 +25,7 @@ services:
     environment:
       MYSQL_DATABASE: devops  # Name of the database to create
       MYSQL_ROOT_PASSWORD: ""  # Set this to an empty string to allow no password for root user
-      MYSQL_ALLOW_EMPTY_PASSWORD: yes  # Allow empty password for root user
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"  # Allow empty password for root user
     volumes:
       - db_data:/var/lib/mysql  # Persist MySQL data
     healthcheck:
