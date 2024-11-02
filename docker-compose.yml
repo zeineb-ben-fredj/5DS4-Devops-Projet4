@@ -10,7 +10,7 @@ services:
       - "8082:8082"  # Map port 8082 of the container to port 8082 of the host
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/devops  # Database connection URL
-      SPRING_DATASOURCE_USERNAME: root  # Database username
+      SPRING_DATASOURCE_USERNAME: user  # Database username
       SPRING_DATASOURCE_PASSWORD: root  # Database password (set to 'root' or your desired password)
       SPRING_JPA_HIBERNATE_DDL_AUTO: update  # Enable automatic schema updates
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL5Dialect  # Hibernate dialect for MySQL
